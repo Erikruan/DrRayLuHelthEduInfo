@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>盧炯睿醫師衛教站</title>
+    <meta
+      name="description"
+      content="心臟內科衛教資訊網站，提供高血壓、高血脂、冠心症、心衰竭、心律不整、用藥與生活照護資訊。"
+    >
+    <meta name="theme-color" content="#c83b4b">
+    <meta property="og:title" content="盧炯睿醫師衛教站">
+    <meta
+      property="og:description"
+      content="民眾版心臟內科衛教資訊庫，提供疾病照護、檢查治療、三高管理與護心生活資訊。"
+    >
+    <meta property="og:type" content="website">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="回到首頁">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 32 32" role="img">
+            <path d="M16 27s-9.5-5.8-12.2-12.1C1.9 10.5 4.6 6 9.1 6c2.3 0 4.1 1.2 5.2 2.9C15.4 7.2 17.2 6 19.5 6c4.5 0 7.2 4.5 5.3 8.9C22.1 21.2 16 27 16 27Z"/>
+            <path d="M7.2 16.1h4.4l1.5-3.7 3.2 8.1 1.9-4.4h6.5"/>
+          </svg>
+        </span>
+        <span>
+          <strong>盧炯睿醫師衛教站</strong>
+          <small>民眾版心臟內科資訊庫</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="主要導覽">
+        <a href="#library">衛教資料</a>
+        <a href="#warning">就醫警訊</a>
+        <a href="#tools">自我管理</a>
+        <a href="#sources">參考來源</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="intro">
+        <div class="intro-copy">
+          <p class="eyebrow">心臟內科衛教資料中心</p>
+          <h1>讓民眾用更少焦慮，找到更可靠的護心資訊。</h1>
+          <p>
+            這裡可以整理門診常見問題、疾病照護、檢查前後注意事項與日常自我管理。
+            內容採民眾容易理解的語氣，並保留來源與更新日期，方便日後擴充。
+          </p>
+          <div class="intro-actions">
+            <a class="primary-action" href="#library">開始查找</a>
+            <a class="secondary-action" href="#warning">先看警訊</a>
+          </div>
+        </div>
+        <div class="heart-panel" aria-label="心血管健康重點圖示">
+          <div class="heart-visual" aria-hidden="true">
+            <svg viewBox="0 0 520 320">
+              <defs>
+                <linearGradient id="artery" x1="0" x2="1">
+                  <stop offset="0" stop-color="#d53f4c"/>
+                  <stop offset="0.55" stop-color="#f07b4f"/>
+                  <stop offset="1" stop-color="#2f8f83"/>
+                </linearGradient>
+              </defs>
+              <path class="ecg-line" d="M26 174h82l24-54 38 120 40-91 33 25h66l26-44 34 44h125"/>
+              <path class="heart-shape" d="M263 247s-86-51-111-110c-18-44 9-89 55-89 27 0 46 14 56 34 11-20 30-34 57-34 46 0 73 45 55 89-25 59-112 110-112 110Z"/>
+              <path class="vessel" d="M177 143c45-21 91-26 137-15 38 10 66 31 91 60"/>
+              <circle cx="178" cy="143" r="8"/>
+              <circle cx="315" cy="128" r="8"/>
+              <circle cx="405" cy="188" r="8"/>
+            </svg>
+          </div>
+          <div class="vitals">
+            <div>
+              <span>血壓</span>
+              <strong>&lt; 120/80</strong>
+            </div>
+            <div>
+              <span>運動</span>
+              <strong>每週 150 分鐘</strong>
+            </div>
+            <div>
+              <span>重點</span>
+              <strong>三高與戒菸</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="notice" aria-label="醫療提醒">
+        <strong>重要提醒</strong>
+        <p>
+          本站提供一般衛教資訊，不能取代醫師診斷、處方或急症處置。若出現胸痛、呼吸困難、
+          單側無力、冒冷汗或意識改變，請立即就醫或撥打當地緊急救護電話。
+        </p>
+      </section>
+
+      <section class="toolbar" aria-label="搜尋和分類">
+        <label class="search-box">
+          <span>搜尋衛教資料</span>
+          <input id="searchInput" type="search" placeholder="輸入：高血壓、心衰竭、用藥、檢查..." autocomplete="off">
+        </label>
+        <div class="filters" aria-label="分類篩選">
+          <button class="filter is-active" type="button" data-filter="all">全部</button>
+          <button class="filter" type="button" data-filter="risk">危險因子</button>
+          <button class="filter" type="button" data-filter="disease">疾病照護</button>
+          <button class="filter" type="button" data-filter="exam">檢查治療</button>
+          <button class="filter" type="button" data-filter="life">生活管理</button>
+        </div>
+      </section>
+
+      <section id="library" class="content-section">
+        <div class="section-heading">
+          <p class="eyebrow">Education Library</p>
+          <h2>衛教資料庫</h2>
+        </div>
+        <div id="articleGrid" class="article-grid" aria-live="polite"></div>
+        <p id="emptyState" class="empty-state" hidden>找不到符合條件的資料。可以換個關鍵字，或新增一篇衛教文章。</p>
+      </section>
+
+      <section id="warning" class="warning-band">
+        <div class="section-heading">
+          <p class="eyebrow">Red Flags</p>
+          <h2>需要立即就醫的警訊</h2>
+        </div>
+        <div class="warning-grid">
+          <article>
+            <h3>疑似心肌梗塞</h3>
+            <p>胸口壓迫、緊縮或疼痛超過數分鐘，可能延伸到左臂、下巴、背部，合併冒冷汗、噁心或喘。</p>
+          </article>
+          <article>
+            <h3>疑似中風</h3>
+            <p>臉歪、單側手腳無力、講話不清、視力異常或突然劇烈頭痛，請把握黃金治療時間。</p>
+          </article>
+          <article>
+            <h3>心衰竭惡化</h3>
+            <p>突然變喘、夜間不能平躺、腳腫快速增加、體重短時間上升，建議儘快回診或急診評估。</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="tools" class="content-section">
+        <div class="section-heading">
+          <p class="eyebrow">Self Care</p>
+          <h2>民眾自我管理工具</h2>
+        </div>
+        <div class="tools-layout">
+          <form class="bp-card" id="bpForm">
+            <h3>血壓紀錄小工具</h3>
+            <div class="bp-inputs">
+              <label>
+                收縮壓
+                <input id="systolic" type="number" inputmode="numeric" min="60" max="260" placeholder="例如 128">
+              </label>
+              <label>
+                舒張壓
+                <input id="diastolic" type="number" inputmode="numeric" min="30" max="160" placeholder="例如 78">
+              </label>
+            </div>
+            <button type="submit">判讀區間</button>
+            <output id="bpResult">輸入血壓後，這裡會顯示一般分類提醒。</output>
+          </form>
+          <div class="checklist">
+            <h3>門診前可以準備</h3>
+            <label><input type="checkbox"> 最近一週血壓、脈搏與體重紀錄</label>
+            <label><input type="checkbox"> 目前用藥、保健食品與過敏史</label>
+            <label><input type="checkbox"> 胸悶、喘、心悸發作時間與誘發情境</label>
+            <label><input type="checkbox"> 最近抽血、心電圖、心臟超音波或檢查報告</label>
+          </div>
+        </div>
+      </section>
+
+      <section id="sources" class="sources">
+        <div class="section-heading">
+          <p class="eyebrow">References</p>
+          <h2>內容參考來源</h2>
+        </div>
+        <ul>
+          <li><a href="https://www.hpa.gov.tw/Pages/List.aspx?nodeid=1463" target="_blank" rel="noreferrer">衛生福利部國民健康署：高血壓與三高防治專區</a></li>
+          <li><a href="https://www.hpa.gov.tw/Pages/Detail.aspx?nodeid=4878&pid=18903" target="_blank" rel="noreferrer">國民健康署：居家 722 量血壓</a></li>
+          <li><a href="https://www.cdc.gov/heart-disease/prevention/index.html" target="_blank" rel="noreferrer">CDC: Preventing Heart Disease</a></li>
+          <li><a href="https://www.cdc.gov/high-blood-pressure/about/index.html" target="_blank" rel="noreferrer">CDC: About High Blood Pressure</a></li>
+          <li><a href="https://www.who.int/westernpacific/newsroom/fact-sheets/detail/cardiovascular-diseases-%28cvds%29" target="_blank" rel="noreferrer">WHO: Cardiovascular Diseases Fact Sheet</a></li>
+        </ul>
+      </section>
+    </main>
+
+    <dialog id="articleDialog">
+      <button class="close-dialog" type="button" aria-label="關閉">×</button>
+      <article id="articleDetail"></article>
+    </dialog>
+
+    <footer>
+      <p>盧炯睿醫師衛教站 · 內容最後更新：2026-05-11 · 建議由醫療團隊定期審閱</p>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
