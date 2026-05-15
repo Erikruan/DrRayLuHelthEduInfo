@@ -58,8 +58,8 @@ a {
 
 .brand-mark {
   display: grid;
-  width: 42px;
-  height: 42px;
+  width: 45px;
+  height: 45px;
   place-items: center;
   overflow: hidden;
   border-radius: 0;
@@ -68,8 +68,8 @@ a {
 }
 
 .brand-mark img {
-  width: 42px;
-  height: 42px;
+  width: 45px;
+  height: 45px;
   object-fit: cover;
   border-radius: 0;
 }
