@@ -43,18 +43,20 @@ async function loadArticles() {
 
 function renderArticles() {
   const keyword = searchInput.value.trim().toLowerCase();
-  const filtered = articles.filter((article) => {
-    const matchesFilter = activeFilter === "all" || article.category === activeFilter;
-    const haystack = [
-      article.title,
-      article.summary,
-      categoryNames[article.category],
-      ...article.tags,
-      ...article.points,
-      ...(article.images || []).map((image) => `${image.alt} ${image.caption}`)
-    ].join(" ").toLowerCase();
-    return matchesFilter && haystack.includes(keyword);
-  });
+  const filtered = articles
+    .filter((article) => {
+      const matchesFilter = activeFilter === "all" || article.category === activeFilter;
+      const haystack = [
+        article.title,
+        article.summary,
+        categoryNames[article.category],
+        ...article.tags,
+        ...article.points,
+        ...(article.images || []).map((image) => `${image.alt} ${image.caption}`)
+      ].join(" ").toLowerCase();
+      return matchesFilter && haystack.includes(keyword);
+    })
+    .sort((a, b) => new Date(b.updated) - new Date(a.updated));
 
   grid.innerHTML = filtered.map((article) => `
     <article class="article-card">
