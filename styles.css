@@ -62,16 +62,16 @@ a {
   height: 42px;
   place-items: center;
   overflow: hidden;
-  border-radius: 8px;
-  background: #ffffff;
-  border: 1px solid var(--line);
+  border-radius: 0;
+  background: transparent;
+  border: 0;
 }
 
 .brand-mark img {
-  width: 28px;
-  height: 28px;
+  width: 42px;
+  height: 42px;
   object-fit: cover;
-  border-radius: 50%;
+  border-radius: 0;
 }
 
 .brand strong,
