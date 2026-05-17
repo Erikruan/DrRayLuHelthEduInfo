@@ -15,6 +15,7 @@ const filterButtons = [...document.querySelectorAll(".filter")];
 const dialog = document.querySelector("#articleDialog");
 const detail = document.querySelector("#articleDetail");
 const closeDialog = document.querySelector(".close-dialog");
+const footerUpdatedDate = document.querySelector("#footerUpdatedDate");
 
 function escapeHTML(value) {
   return String(value ?? "")
@@ -32,12 +33,26 @@ async function loadArticles() {
       throw new Error(`HTTP ${response.status}`);
     }
     articles = await response.json();
+    updateFooterDate();
     renderArticles();
   } catch (error) {
     grid.innerHTML = "";
     emptyState.hidden = false;
     emptyState.textContent = "文章資料載入失敗。請確認 data/articles.json 存在，並用本機預覽伺服器或公開網站網址開啟。";
     console.error("Failed to load articles:", error);
+  }
+}
+
+function updateFooterDate() {
+  if (!footerUpdatedDate || articles.length === 0) return;
+
+  const latestDate = articles
+    .map((article) => article.updated)
+    .filter(Boolean)
+    .sort((a, b) => new Date(b) - new Date(a))[0];
+
+  if (latestDate) {
+    footerUpdatedDate.textContent = latestDate;
   }
 }
 
