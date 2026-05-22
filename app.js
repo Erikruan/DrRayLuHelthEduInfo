@@ -1,6 +1,8 @@
 let articles = [];
 let activeFilter = "all";
 const now = new Date();
+const isLocalPreview = ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
+const previewScheduled = isLocalPreview && new URLSearchParams(window.location.search).has("previewScheduled");
 
 const categoryNames = {
   risk: "危險因子",
@@ -58,7 +60,7 @@ function updateFooterDate() {
 }
 
 function isPublished(article) {
-  return !article.publishAt || new Date(article.publishAt) <= now;
+  return previewScheduled || !article.publishAt || new Date(article.publishAt) <= now;
 }
 
 function getPublishedArticles(articleList) {
