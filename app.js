@@ -1,5 +1,6 @@
 let articles = [];
 let activeFilter = "all";
+const now = new Date();
 
 const categoryNames = {
   risk: "危險因子",
@@ -46,7 +47,7 @@ async function loadArticles() {
 function updateFooterDate() {
   if (!footerUpdatedDate || articles.length === 0) return;
 
-  const latestDate = articles
+  const latestDate = getPublishedArticles(articles)
     .map((article) => article.updated)
     .filter(Boolean)
     .sort((a, b) => new Date(b) - new Date(a))[0];
@@ -56,9 +57,17 @@ function updateFooterDate() {
   }
 }
 
+function isPublished(article) {
+  return !article.publishAt || new Date(article.publishAt) <= now;
+}
+
+function getPublishedArticles(articleList) {
+  return articleList.filter(isPublished);
+}
+
 function renderArticles() {
   const keyword = searchInput.value.trim().toLowerCase();
-  const filtered = articles
+  const filtered = getPublishedArticles(articles)
     .filter((article) => {
       const matchesFilter = activeFilter === "all" || article.category === activeFilter;
       const haystack = [
@@ -95,7 +104,7 @@ function renderArticles() {
 }
 
 function openArticle(id) {
-  const article = articles.find((item) => item.id === id);
+  const article = getPublishedArticles(articles).find((item) => item.id === id);
   if (!article) return;
 
   detail.innerHTML = `
