@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>粥狀動脈硬化 — 互動圖解</title>
+<meta name="description" content="以翻頁互動圖解說明粥狀動脈硬化從內皮受損、發炎、斑塊長大、斑塊破裂到血管阻塞的過程。">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, 'Noto Sans TC', sans-serif;
+    background: #f5f4ef;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+  }
+  .card {
+    background: #fff;
+    border-radius: 20px;
+    max-width: 420px;
+    width: 100%;
+    padding: 1.75rem 1.5rem 2rem;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+  }
+  .back-link {
+    display: inline-flex;
+    margin-bottom: 1rem;
+    color: #0F6E56;
+    font-size: 13px;
+    font-weight: 600;
+    text-decoration: none;
+  }
+  .header { text-align: center; margin-bottom: 1.5rem; }
+  .eyebrow { font-size: 11px; color: #888; letter-spacing: 0.1em; margin-bottom: 5px; text-transform: uppercase; }
+  .title { font-size: 19px; font-weight: 600; color: #1a1a1a; }
+
+  .vessel-wrap { margin-bottom: 1.25rem; }
+
+  .dots { display: flex; gap: 6px; justify-content: center; margin-bottom: 1rem; }
+  .dot { width: 28px; height: 6px; border-radius: 3px; cursor: pointer; transition: background 0.3s, width 0.3s; background: #ddd; }
+  .dot.active { width: 36px; }
+
+  .step-card {
+    background: #fafafa;
+    border: 1px solid #ebebeb;
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    min-height: 100px;
+    margin-bottom: 1rem;
+    transition: border-color 0.3s;
+  }
+  .step-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .step-num {
+    width: 26px; height: 26px; border-radius: 50%;
+    font-size: 12px; font-weight: 600;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: background 0.3s, color 0.3s;
+  }
+  .step-title { font-weight: 600; font-size: 15px; color: #1a1a1a; }
+  .step-desc { font-size: 13px; color: #555; line-height: 1.75; }
+
+  .nav-row { display: flex; gap: 8px; }
+  .nav-btn {
+    flex: 1; padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #e0e0e0;
+    background: #fff;
+    font-size: 13px; font-weight: 500;
+    cursor: pointer; color: #333;
+    transition: background 0.2s, opacity 0.2s;
+  }
+  .nav-btn:hover { background: #f0f0f0; }
+  .nav-btn.primary { background: #f0faf5; border-color: #9FE1CB; color: #0F6E56; }
+
+  .risk-box {
+    margin-top: 1rem;
+    background: #fff5f5;
+    border: 1px solid #fcc;
+    border-radius: 14px;
+    padding: 1rem 1.25rem;
+    display: none;
+  }
+  .risk-title { font-weight: 600; font-size: 13px; color: #c0392b; margin-bottom: 6px; }
+  .risk-body { font-size: 12px; color: #a32d2d; line-height: 1.9; }
+  .medical-note {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #ebebeb;
+    color: #777;
+    font-size: 12px;
+    line-height: 1.8;
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <a class="back-link" href="../index.html">回衛教資料庫</a>
+
+  <div class="header">
+    <div class="eyebrow">一步步看懂</div>
+    <div class="title">粥狀動脈硬化怎麼形成的？</div>
+  </div>
+
+  <div class="vessel-wrap">
+    <svg width="100%" viewBox="0 0 340 110" role="img">
+      <title>血管橫切面動態圖</title>
+      <defs>
+        <marker id="arr2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        </marker>
+      </defs>
+
+      <rect x="20" y="28" width="300" height="54" rx="27" fill="#E1F5EE" stroke="#5DCAA5" stroke-width="1"/>
+      <rect x="20" y="28" width="300" height="13" rx="0" fill="#9FE1CB"/>
+      <rect x="20" y="69" width="300" height="13" rx="0" fill="#9FE1CB"/>
+      <rect x="20" y="28" width="14" height="54" rx="6" fill="#9FE1CB"/>
+      <rect x="306" y="28" width="14" height="54" rx="6" fill="#9FE1CB"/>
+
+      <ellipse id="lumen" cx="170" cy="55" rx="120" ry="16" fill="#B5D4F4" opacity="0.75"/>
+      <g id="plaque-group"></g>
+      <g id="clot-group"></g>
+
+      <text id="lumen-label" x="170" y="59" text-anchor="middle" font-size="12" font-family="-apple-system, sans-serif" fill="#185FA5" font-weight="500">血流通暢</text>
+      <text id="wall-label" x="170" y="20" text-anchor="middle" font-size="11" font-family="-apple-system, sans-serif" fill="#0F6E56">健康血管內壁（內皮細胞）</text>
+    </svg>
+  </div>
+
+  <div class="dots" id="dots-nav"></div>
+
+  <div class="step-card" id="step-card">
+    <div class="step-header">
+      <div class="step-num" id="step-num" style="background:#E1F5EE;color:#0F6E56;">1</div>
+      <div class="step-title" id="step-title">健康的血管</div>
+    </div>
+    <div class="step-desc" id="step-desc">血管內壁由一層薄薄的內皮細胞覆蓋，表面光滑，血液自由流動，無任何阻礙。</div>
+  </div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="btn-prev" onclick="changeStep(-1)">← 上一步</button>
+    <button class="nav-btn primary" id="btn-next" onclick="changeStep(1)">下一步 →</button>
+  </div>
+
+  <div class="risk-box" id="risk-box">
+    <div class="risk-title">如何預防？</div>
+    <div class="risk-body">
+      戒菸 ｜ 控制血壓、血糖、血脂<br>
+      規律運動 ｜ 健康飲食<br>
+      定期健檢，早期發現早期治療
+    </div>
+  </div>
+
+  <p class="medical-note">本頁為一般衛教資訊，不能取代醫師診斷與急症處置；若有胸痛、喘、冒冷汗、單側無力或說話不清，請立即就醫。</p>
+
+</div>
+
+<script>
+const steps = [
+  {
+    title: "健康的血管",
+    desc: "血管內壁由一層薄薄的內皮細胞覆蓋，表面光滑，血液自由流動，無任何阻礙。",
+    color: "#0F6E56", bg: "#E1F5EE",
+    lumenRx: 120, lumenFill: "#B5D4F4",
+    lumenLabel: "血流通暢", lumenLabelColor: "#185FA5",
+    wallLabel: "健康血管內壁（內皮細胞）", wallLabelColor: "#0F6E56",
+    plaque: 0, clot: false, clotSize: 0, showRisk: false
+  },
+  {
+    title: "第一步：內皮受損",
+    desc: "長期高血壓、吸菸、高血脂、高血糖會傷害內皮細胞，使血管壁出現微小裂縫，壞膽固醇（LDL）趁機滲入。",
+    color: "#854F0B", bg: "#FAEEDA",
+    lumenRx: 116, lumenFill: "#B5D4F4",
+    lumenLabel: "血流正常", lumenLabelColor: "#185FA5",
+    wallLabel: "⚠ 內皮受損，LDL 開始滲入", wallLabelColor: "#854F0B",
+    plaque: 0, clot: false, clotSize: 0, showRisk: false
+  },
+  {
+    title: "第二步：發炎反應啟動",
+    desc: "免疫細胞被召喚至受損處，吞噬 LDL 後變成「泡沫細胞」，在血管壁內堆積，形成早期脂肪條紋。",
+    color: "#854F0B", bg: "#FAEEDA",
+    lumenRx: 105, lumenFill: "#85B7EB",
+    lumenLabel: "輕微變窄", lumenLabelColor: "#185FA5",
+    wallLabel: "泡沫細胞堆積，脂肪條紋形成", wallLabelColor: "#854F0B",
+    plaque: 1, clot: false, clotSize: 0, showRisk: false
+  },
+  {
+    title: "第三步：斑塊逐漸長大",
+    desc: "脂肪、鈣化物、纖維組織持續堆積，形成「粥狀斑塊」。血管越來越窄，運動時心肌開始缺血——這就是心絞痛。",
+    color: "#993C1D", bg: "#FAECE7",
+    lumenRx: 78, lumenFill: "#378ADD",
+    lumenLabel: "明顯狹窄", lumenLabelColor: "#fff",
+    wallLabel: "斑塊增大，血管腔縮小", wallLabelColor: "#993C1D",
+    plaque: 2, clot: false, clotSize: 0, showRisk: false
+  },
+  {
+    title: "第四步：斑塊破裂",
+    desc: "不穩定的斑塊突然破裂，血小板迅速聚集，血栓開始形成——這是心肌梗塞發生的關鍵時刻。",
+    color: "#A32D2D", bg: "#FCEBEB",
+    lumenRx: 60, lumenFill: "#378ADD",
+    lumenLabel: "嚴重狹窄", lumenLabelColor: "#fff",
+    wallLabel: "⚠ 斑塊破裂！血栓開始形成", wallLabelColor: "#A32D2D",
+    plaque: 3, clot: true, clotSize: 0.45, showRisk: false
+  },
+  {
+    title: "第五步：完全阻塞 — 心肌梗塞",
+    desc: "血栓快速擴大，完全堵住血管。心肌得不到血液與氧氣，開始壞死。黃金 90 分鐘內打通血管，是搶救心肌的關鍵。",
+    color: "#A32D2D", bg: "#FCEBEB",
+    lumenRx: 14, lumenFill: "#E24B4A",
+    lumenLabel: "完全阻塞！", lumenLabelColor: "#fff",
+    wallLabel: "心肌梗塞發生，黃金90分鐘搶救", wallLabelColor: "#A32D2D",
+    plaque: 3, clot: true, clotSize: 1, showRisk: true
+  }
+];
+
+let current = 0;
+
+function buildNav() {
+  const nav = document.getElementById("dots-nav");
+  steps.forEach((s, i) => {
+    const dot = document.createElement("div");
+    dot.className = "dot" + (i === 0 ? " active" : "");
+    dot.id = "dot-" + i;
+    dot.style.background = i === 0 ? steps[0].color : "#ddd";
+    dot.onclick = () => goTo(i);
+    nav.appendChild(dot);
+  });
+}
+
+function updateSVG(step) {
+  const s = steps[step];
+  const lumen = document.getElementById("lumen");
+  lumen.setAttribute("rx", s.lumenRx);
+  lumen.setAttribute("fill", s.lumenFill);
+
+  const ll = document.getElementById("lumen-label");
+  ll.textContent = s.lumenLabel;
+  ll.setAttribute("fill", s.lumenLabelColor);
+
+  const wl = document.getElementById("wall-label");
+  wl.textContent = s.wallLabel;
+  wl.setAttribute("fill", s.wallLabelColor);
+
+  const pg = document.getElementById("plaque-group");
+  pg.innerHTML = "";
+  if (s.plaque >= 1) {
+    const configs = [
+      { topH: 6, botH: 5, rx: 3, fill: "#FAC775" },
+      { topH: 13, botH: 11, rx: 5, fill: "#EF9F27" },
+      { topH: 20, botH: 17, rx: 7, fill: "#BA7517" }
+    ];
+    const c = configs[Math.min(s.plaque - 1, 2)];
+    pg.innerHTML = `
+      <rect x="55" y="41" width="230" height="${c.topH}" rx="${c.rx}" fill="${c.fill}" opacity="0.9"/>
+      <rect x="65" y="${69 - c.botH}" width="210" height="${c.botH}" rx="${c.rx}" fill="${c.fill}" opacity="0.9"/>
+    `;
+  }
+
+  const cg = document.getElementById("clot-group");
+  cg.innerHTML = "";
+  if (s.clot && s.clotSize > 0) {
+    const rw = Math.round(55 * s.clotSize);
+    const rh = Math.max(4, Math.round(13 * s.clotSize));
+    const op = 0.55 + s.clotSize * 0.4;
+    cg.innerHTML = `<ellipse cx="170" cy="55" rx="${rw}" ry="${rh}" fill="#E24B4A" opacity="${op}"/>`;
+  }
+}
+
+function updateCard(step) {
+  const s = steps[step];
+  const numEl = document.getElementById("step-num");
+  numEl.textContent = step + 1;
+  numEl.style.background = s.bg;
+  numEl.style.color = s.color;
+  document.getElementById("step-title").textContent = s.title;
+  document.getElementById("step-desc").textContent = s.desc;
+  document.getElementById("step-card").style.borderColor = s.color + "44";
+  document.getElementById("risk-box").style.display = s.showRisk ? "block" : "none";
+  document.getElementById("btn-prev").style.opacity = step === 0 ? "0.3" : "1";
+  document.getElementById("btn-next").style.opacity = step === steps.length - 1 ? "0.3" : "1";
+
+  for (let i = 0; i < steps.length; i++) {
+    const dot = document.getElementById("dot-" + i);
+    if (!dot) continue;
+    dot.style.background = i === step ? s.color : "#ddd";
+    dot.style.width = i === step ? "36px" : "28px";
+    dot.classList.toggle("active", i === step);
+  }
+}
+
+function goTo(i) {
+  current = Math.max(0, Math.min(steps.length - 1, i));
+  updateSVG(current);
+  updateCard(current);
+}
+
+function changeStep(dir) { goTo(current + dir); }
+
+buildNav();
+updateSVG(0);
+updateCard(0);
+</script>
+</body>
+</html>
