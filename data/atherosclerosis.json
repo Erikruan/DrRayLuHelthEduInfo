@@ -1,4 +1,5 @@
-{
+[
+  {
     "id":  "atherosclerosis-progression",
     "title":  "血管是怎麼一步步「堵死」的？動脈硬化不是一夜之間發生",
     "category":  "risk",
@@ -15,7 +16,8 @@
                        "src":  "assets/atherosclerosis-progression-guide.png",
                        "alt":  "動脈硬化衛教圖，說明血管內皮受損、發炎反應、斑塊長大、斑塊破裂、血管完全阻塞，以及吸菸、高血壓、糖尿病、高血脂與家族病史等危險因子",
                        "caption":  "血管是怎麼一步步「堵死」的？動脈硬化進展圖解"
-                   }
+  }
+]
                ],
     "links":  [
                   {
