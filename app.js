@@ -31,11 +31,20 @@ function escapeHTML(value) {
 
 async function loadArticles() {
   try {
-    const response = await fetch("data/articles.json", { cache: "no-store" });
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}`);
-    }
-    articles = await response.json();
+    const sources = ["data/articles.json", "data/atherosclerosis.json"];
+    const results = await Promise.allSettled(
+      sources.map(async (source) => {
+        const response = await fetch(source, { cache: "no-store" });
+        if (!response.ok) {
+          if (source !== "data/articles.json" && response.status === 404) return [];
+          throw new Error(`${source} HTTP ${response.status}`);
+        }
+        return response.json();
+      })
+    );
+    const failedRequiredSource = results[0].status === "rejected";
+    if (failedRequiredSource) throw results[0].reason;
+    articles = results.flatMap((result) => result.status === "fulfilled" ? result.value : []);
     updateFooterDate();
     renderArticles();
   } catch (error) {
@@ -120,6 +129,13 @@ function openArticle(id) {
             <img src="${escapeHTML(image.src)}" alt="${escapeHTML(image.alt)}" loading="lazy">
             <figcaption>${escapeHTML(image.caption)}</figcaption>
           </figure>
+        `).join("")}
+      </div>
+    ` : ""}
+    ${article.links ? `
+      <div class="article-links">
+        ${article.links.map((link) => `
+          <a class="article-link" href="${escapeHTML(link.href)}" target="_blank" rel="noreferrer">${escapeHTML(link.label)}</a>
         `).join("")}
       </div>
     ` : ""}
