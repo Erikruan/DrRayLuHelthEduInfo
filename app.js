@@ -31,7 +31,7 @@ function escapeHTML(value) {
 
 async function loadArticles() {
   try {
-    const sources = ["data/articles.json", "data/atherosclerosis.json"];
+    const sources = ["data/articles.json", "data/atherosclerosis.json", "data/heart-lifetime-beats.json"];
     const results = await Promise.allSettled(
       sources.map(async (source) => {
         const response = await fetch(source, { cache: "no-store" });
