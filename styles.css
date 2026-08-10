@@ -428,6 +428,59 @@ h2 {
   border-radius: 8px;
 }
 
+.pagination {
+  display: grid;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.pagination[hidden] {
+  display: none;
+}
+
+.pagination-status {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+.pagination-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.page-button {
+  min-width: 42px;
+  min-height: 42px;
+  padding: 8px 12px;
+  color: #293744;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.page-button:hover:not(:disabled),
+.page-button:focus-visible {
+  border-color: var(--teal);
+  outline: none;
+}
+
+.page-button.is-active {
+  color: #ffffff;
+  background: var(--teal);
+  border-color: var(--teal);
+}
+
+.page-button:disabled {
+  color: #9aa6ae;
+  background: #f3f5f5;
+  cursor: not-allowed;
+}
+
 .warning-band {
   background: #23313d;
   color: #ffffff;
@@ -697,5 +750,15 @@ footer p {
 
   .article-card {
     min-height: auto;
+  }
+
+  .pagination-controls {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+
+  .page-button {
+    min-width: 0;
+    padding-inline: 8px;
   }
 }
