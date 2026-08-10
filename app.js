@@ -31,7 +31,7 @@ function escapeHTML(value) {
 
 async function loadArticles() {
   try {
-    const sources = ["data/articles.json", "data/atherosclerosis.json", "data/heart-lifetime-beats.json", "data/vascular-endothelium.json", "data/coronary-stent-aftercare.json", "data/kawasaki-disease.json", "data/taiwan-mediterranean-diet.json", "data/ancient-egypt-heart-medicine.json"];
+    const sources = ["data/articles.json", "data/atherosclerosis.json", "data/heart-lifetime-beats.json", "data/vascular-endothelium.json", "data/coronary-stent-aftercare.json", "data/kawasaki-disease.json", "data/taiwan-mediterranean-diet.json", "data/ancient-egypt-heart-medicine.json", "data/autonomic-nervous-system-palpitations.json"];
     const results = await Promise.allSettled(
       sources.map(async (source) => {
         const response = await fetch(source, { cache: "no-store" });
