@@ -1,5 +1,7 @@
 let articles = [];
 let activeFilter = "all";
+let currentPage = 1;
+const articlesPerPage = 5;
 const now = new Date();
 const isLocalPreview = ["", "localhost", "127.0.0.1"].includes(window.location.hostname);
 const previewScheduled = isLocalPreview && new URLSearchParams(window.location.search).has("previewScheduled");
@@ -13,6 +15,7 @@ const categoryNames = {
 
 const grid = document.querySelector("#articleGrid");
 const emptyState = document.querySelector("#emptyState");
+const pagination = document.querySelector("#pagination");
 const searchInput = document.querySelector("#searchInput");
 const filterButtons = [...document.querySelectorAll(".filter")];
 const dialog = document.querySelector("#articleDialog");
@@ -76,9 +79,9 @@ function getPublishedArticles(articleList) {
   return articleList.filter(isPublished);
 }
 
-function renderArticles() {
+function getFilteredArticles() {
   const keyword = searchInput.value.trim().toLowerCase();
-  const filtered = getPublishedArticles(articles)
+  return getPublishedArticles(articles)
     .filter((article) => {
       const matchesFilter = activeFilter === "all" || article.category === activeFilter;
       const haystack = [
@@ -92,8 +95,16 @@ function renderArticles() {
       return matchesFilter && haystack.includes(keyword);
     })
     .sort((a, b) => new Date(b.updated) - new Date(a.updated));
+}
 
-  grid.innerHTML = filtered.map((article) => `
+function renderArticles() {
+  const filtered = getFilteredArticles();
+  const totalPages = Math.max(1, Math.ceil(filtered.length / articlesPerPage));
+  currentPage = Math.min(currentPage, totalPages);
+  const startIndex = (currentPage - 1) * articlesPerPage;
+  const pageArticles = filtered.slice(startIndex, startIndex + articlesPerPage);
+
+  grid.innerHTML = pageArticles.map((article) => `
     <article class="article-card">
       <div>
         <div class="tag-row">
@@ -112,6 +123,35 @@ function renderArticles() {
 
   emptyState.textContent = "找不到符合條件的資料。可以換個關鍵字，或新增一篇衛教文章。";
   emptyState.hidden = filtered.length > 0;
+  renderPagination(filtered.length, totalPages);
+}
+
+function renderPagination(totalArticles, totalPages) {
+  if (!pagination) return;
+
+  if (totalArticles <= articlesPerPage) {
+    pagination.hidden = true;
+    pagination.innerHTML = "";
+    return;
+  }
+
+  pagination.hidden = false;
+  const pageButtons = Array.from({ length: totalPages }, (_, index) => {
+    const page = index + 1;
+    return `<button class="page-button${page === currentPage ? " is-active" : ""}" type="button" data-page="${page}" aria-current="${page === currentPage ? "page" : "false"}">${page}</button>`;
+  }).join("");
+
+  const firstArticle = (currentPage - 1) * articlesPerPage + 1;
+  const lastArticle = Math.min(currentPage * articlesPerPage, totalArticles);
+
+  pagination.innerHTML = `
+    <p class="pagination-status">第 ${currentPage} / ${totalPages} 頁，顯示 ${firstArticle}-${lastArticle} 篇，共 ${totalArticles} 篇</p>
+    <div class="pagination-controls">
+      <button class="page-button" type="button" data-page="${currentPage - 1}" ${currentPage === 1 ? "disabled" : ""}>上一頁</button>
+      ${pageButtons}
+      <button class="page-button" type="button" data-page="${currentPage + 1}" ${currentPage === totalPages ? "disabled" : ""}>下一頁</button>
+    </div>
+  `;
 }
 
 function openArticle(id) {
@@ -153,16 +193,32 @@ function openArticle(id) {
 filterButtons.forEach((button) => {
   button.addEventListener("click", () => {
     activeFilter = button.dataset.filter;
+    currentPage = 1;
     filterButtons.forEach((item) => item.classList.toggle("is-active", item === button));
     renderArticles();
   });
 });
 
-searchInput.addEventListener("input", renderArticles);
+searchInput.addEventListener("input", () => {
+  currentPage = 1;
+  renderArticles();
+});
 
 grid.addEventListener("click", (event) => {
   const button = event.target.closest(".open-article");
   if (button) openArticle(button.dataset.id);
+});
+
+pagination?.addEventListener("click", (event) => {
+  const button = event.target.closest(".page-button");
+  if (!button || button.disabled) return;
+
+  const page = Number(button.dataset.page);
+  if (!page || page === currentPage) return;
+
+  currentPage = page;
+  renderArticles();
+  document.querySelector("#library")?.scrollIntoView({ behavior: "smooth", block: "start" });
 });
 
 closeDialog.addEventListener("click", () => dialog.close());
